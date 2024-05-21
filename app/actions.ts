@@ -170,8 +170,14 @@ export async function BuyProduct(formData: FormData) {
         destination: data?.User?.connectedAccountId as string,
       }
     },
-    success_url: "http://localhost:3000/payment/success",
-    cancel_url: "http://localhost:3000/payment/cancel",
+    success_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/payment/success"
+        : "https://holtz-digital.vercel.app/payment/success",
+    cancel_url:
+      process.env.NODE_ENV === "development"  
+        ? "http://localhost:3000/payment/cancel"
+        : "https://holtz-digital.vercel.app/payment/cancel",
   })
 
   return redirect(session.url as string);
@@ -200,11 +206,11 @@ export async function CreateStripeAccoutnLink() {
     refresh_url:
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/billing`
-        : `https://marshal-ui-yt.vercel.app/billing`,
+        : `https://holtz-digital.vercel.app/billing`,
     return_url:
       process.env.NODE_ENV === "development"
         ? `http://localhost:3000/return/${data?.connectedAccountId}`
-        : `https://marshal-ui-yt.vercel.app/return/${data?.connectedAccountId}`,
+        : `https://holtz-digital.vercel.app/${data?.connectedAccountId}`,
     type: "account_onboarding",
   });
 
